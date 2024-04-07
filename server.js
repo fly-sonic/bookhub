@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
 const taskRoutes = require("./routes/tasks");
+const bookRoutes = require("./routes/books");
 
 // express app
 const app = express();
@@ -23,6 +24,7 @@ app.use(express.json());
 
 // routes
 app.use("/api/tasks", taskRoutes);
+app.use("/api/books", bookRoutes);
 
 // connect to db
 mongoose
