@@ -10,6 +10,19 @@ const bookRoutes = require("./routes/books");
 // express app
 const app = express();
 
+// This code makes sure that any request that does not matches a static file
+// in the client/build folder, will just serve index.html. Client side routing is
+// going to make sure that the correct content will be loaded.
+app.use((req, res, next) => {
+  if (/^\/api/i.test(req.path) || /(.ico|.js|.css|.jpg|.png|.map|.svg)$/i.test(req.path)) {
+    next();
+  } else {
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.header('Expires', '-1');
+    res.header('Pragma', 'no-cache');
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  }
+});
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "client/build")));
 
